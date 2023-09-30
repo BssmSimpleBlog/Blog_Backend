@@ -7,15 +7,23 @@ const { sign } = require('jsonwebtoken');
 //Register
 router.post('/', async (req, res) => {
 	const { userid, password, email, nickname } = req.body;
-	bcrypt.hash(password, 10).then((hash) => {
-		Users.create({
-			userid: userid,
-			password: hash,
-			email: email,
-			nickname: nickname,
+
+	// 유저아이디 존재여부 확인
+	const user = await Users.findOne({ where: { userid: userid } });
+
+	if (!user) {
+		bcrypt.hash(password, 10).then((hash) => {
+			Users.create({
+				userid: userid,
+				password: hash,
+				email: email,
+				nickname: nickname,
+			});
+			res.json('회원가입 성공!');
 		});
-		res.json('회원가입 성공!');
-	});
+	} else {
+		res.json({ error: '이미 존재하는 아이디입니다.' });
+	}
 });
 
 //Login
