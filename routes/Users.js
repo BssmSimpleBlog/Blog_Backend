@@ -48,4 +48,28 @@ router.post('/login', async (req, res) => {
 	});
 });
 
+//Update
+router.put('/:id', async (req, res) => {
+	const { id, userid, password, nickname } = req.body;
+
+	if (id === req.params.id) {
+		if (password) {
+			bcrypt.hash(password, 10).then((hash) => {
+				Users.update(
+					{
+						id: id,
+						userid: userid,
+						password: hash,
+						nickname: nickname,
+					},
+					{ where: { id: id } }
+				);
+			});
+			res.json('Success');
+		}
+	} else {
+		res.json('Not Match');
+	}
+});
+
 module.exports = router;
