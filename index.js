@@ -7,6 +7,7 @@ app.use(
 	cors({
 		origin: '*',
 		credentials: true,
+		withCredentials: true,
 		optionsSuccessStatus: 200,
 	})
 );

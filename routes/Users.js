@@ -50,25 +50,46 @@ router.post('/login', async (req, res) => {
 
 //Update
 router.put('/:id', async (req, res) => {
-	const { id, userid, password, nickname } = req.body;
+	const { userid, password, nickname } = req.body;
 
-	if (id === req.params.id) {
+	if (userid === req.params.id) {
 		if (password) {
 			bcrypt.hash(password, 10).then((hash) => {
 				Users.update(
 					{
-						id: id,
 						userid: userid,
 						password: hash,
 						nickname: nickname,
 					},
-					{ where: { id: id } }
+					{ where: { userid: userid } }
 				);
 			});
-			res.json('Success');
+			res.json('계정정보 수정 완료');
 		}
 	} else {
-		res.json('Not Match');
+		res.json('계정정보 수정 실패');
+	}
+});
+
+//Delete
+router.delete('/:id', async (req, res) => {
+	const { userid, password } = req.body;
+	
+	const user = await Users.findOne({ where: { userid: userid } });
+
+	if (userid === req.params.id) {
+		bcrypt.compare(password, user.password).then((match) => {
+			if (!match) {
+				return res.json({
+					error: '비밀번호가 일치하지 않습니다.',
+				});
+			} else {
+				Users.destroy({ where: { userid: userid } });
+				res.json('계정 삭제 성공');
+			}
+		});
+	} else {
+		res.json('아이디가 일치하지 않습니다.');
 	}
 });
 
