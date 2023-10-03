@@ -12,6 +12,14 @@ module.exports = (sequelize, DataTypes) => {
 			type: DataTypes.STRING,
 			allowNull: false,
 		},
+		userid: {
+			type: DataTypes.STRING,
+			allowNull: false,
+		},
+		postid: {
+			type: DataTypes.STRING,
+			allowNull: false,
+		},
 	});
 
 	return Post;
