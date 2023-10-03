@@ -26,6 +26,8 @@ const db = require('./models');
 //DataBase Router Call
 const usersRouter = require('./routes/Users');
 app.use('/auth', usersRouter);
+const postRouter = require('./routes/Post');
+app.use('/post', postRouter);
 
 //Port
 db.sequelize.sync().then(() => {
