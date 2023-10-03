@@ -28,7 +28,7 @@ router.post('/', async (req, res) => {
 
 //Login
 router.post('/login', async (req, res) => {
-	const { userid, password } = req.body;
+	const { userid, password, nickname } = req.body;
 
 	const user = await Users.findOne({ where: { userid: userid } });
 
@@ -44,7 +44,7 @@ router.post('/login', async (req, res) => {
 
 		// accessToken 발급및 Respond
 		const accessToken = sign({ userid: user.userid }, 'importantsecret');
-		return res.json({ code: 200, token: accessToken, userid: userid });
+		return res.json({ code: 200, token: accessToken, userid: userid, nickname: user.nickname });
 	});
 });
 
@@ -74,7 +74,7 @@ router.put('/:id', async (req, res) => {
 //Delete
 router.delete('/:id', async (req, res) => {
 	const { userid, password } = req.body;
-	
+
 	const user = await Users.findOne({ where: { userid: userid } });
 
 	if (userid === req.params.id) {
