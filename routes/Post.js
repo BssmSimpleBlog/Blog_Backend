@@ -61,7 +61,7 @@ router.get('/:id', async (req, res) => {
 				desc: post.desc,
 				nickname: post.nickname,
 				updatedAt: post.updateAt,
-			});
+			}); 
 		} else {
 			res.json('해당 게시글을 찾을 수 없습니다.');
 		}
