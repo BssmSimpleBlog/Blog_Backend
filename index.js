@@ -13,7 +13,7 @@ app.use(
 );
 
 //Port Setting
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT;
 
 //API Test
 app.get('/', (req, res) => {
