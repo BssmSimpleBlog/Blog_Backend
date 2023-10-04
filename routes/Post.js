@@ -21,16 +21,16 @@ router.post('/', async (req, res) => {
 
 //Update
 router.put('/:id', async (req, res) => {
-	const { userid, title, desc, postid } = req.body;
+	const { id, userid, title, desc } = req.body;
 
-	if (postid === req.params.id) {
+	if (id === req.params.id) {
 		Post.update(
 			{
 				userid: userid,
 				title: title,
 				desc: desc,
 			},
-			{ where: { userid: userid } }
+			{ where: { id: id } }
 		);
 		res.json('글 수정 완료');
 	} else {
