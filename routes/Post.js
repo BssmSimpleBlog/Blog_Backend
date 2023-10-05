@@ -66,14 +66,7 @@ router.delete('/:id', async (req, res) => {
 router.get('/:id', async (req, res) => {
 	Post.findOne({ where: { id: req.params.id } }).then((post) => {
 		if (post) {
-			res.json({
-				status: '200',
-				id: post.id,
-				title: post.title,
-				desc: post.desc,
-				nickname: post.nickname,
-				updatedAt: post.updateAt,
-			});
+			res.json(post);
 		} else {
 			res.json('해당 게시글을 찾을 수 없습니다.');
 		}
