@@ -40,13 +40,19 @@ router.put('/:id', async (req, res) => {
 
 //Delete
 router.delete('/:id', async (req, res) => {
-	const { userid, title, desc, nickname } = req.body;
+	const { id, userid } = req.body;
 
-	if (userid === req.params.id) {
-		Post.destroy({ where: { userid: userid } });
-		res.json('게시글 삭제 성공');
+	if (id === req.params.id) {
+		Post.findOne({ where: { id: id } }).then((post) => {
+			if (post.userid === userid) {
+				Post.destroy({ where: { id: id } });
+				res.json('게시글 삭제 성공');
+			} else {
+				res.json('글작성자만 글을 삭제할 수 있습니다.');
+			}
+		});
 	} else {
-		res.json('글작성자만 글을 삭제할 수 있습니다.');
+		res.json('게시글을 찾을 수 없습니다.');
 	}
 });
 
@@ -61,7 +67,7 @@ router.get('/:id', async (req, res) => {
 				desc: post.desc,
 				nickname: post.nickname,
 				updatedAt: post.updateAt,
-			}); 
+			});
 		} else {
 			res.json('해당 게시글을 찾을 수 없습니다.');
 		}
