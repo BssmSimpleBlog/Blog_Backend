@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const { Users } = require('../models');
+const { Post } = require('../models');
 const bcrypt = require('bcrypt');
 const { sign } = require('jsonwebtoken');
 
@@ -44,7 +45,12 @@ router.post('/login', async (req, res) => {
 
 		// accessToken 발급및 Respond
 		const accessToken = sign({ userid: user.userid }, 'importantsecret');
-		return res.json({ code: 200, token: accessToken, userid: userid, nickname: user.nickname });
+		return res.json({
+			code: 200,
+			token: accessToken,
+			userid: userid,
+			nickname: user.nickname,
+		});
 	});
 });
 
@@ -64,6 +70,13 @@ router.put('/:id', async (req, res) => {
 					{ where: { userid: userid } }
 				);
 			});
+			Post.update(
+				{
+					userid: userid,
+					nickname: nickname,
+				},
+				{ where: { userid: userid } }
+			);
 			res.json('계정정보 수정 완료');
 		}
 	} else {
