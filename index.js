@@ -7,7 +7,7 @@ dotenv.config();
 app.use(express.json());
 app.use(
 	cors({
-		origin: 'http://localhost:3000',
+		origin: 'https://blog-frontend-gewexlf0n-chooseongwoos-projects-62674c20.vercel.app/',
 		credentials: true,
 		withCredentials: true,
 		optionsSuccessStatus: 200,
