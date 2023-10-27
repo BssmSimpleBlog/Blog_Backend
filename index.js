@@ -9,8 +9,6 @@ app.use(
 	cors({
 		origin: process.env.ORIGIN,
 		credentials: true,
-		withCredentials: true,
-		optionsSuccessStatus: 200,
 	})
 );
 
