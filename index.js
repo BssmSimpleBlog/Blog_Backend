@@ -7,8 +7,10 @@ dotenv.config();
 app.use(express.json());
 app.use(
 	cors({
-		origin: process.env.ORIGIN,
 		credentials: true,
+		origin: 'https://simpleblog-ambition.netlify.app',
+		withCredentials: true,
+		optionsSuccessStatus: 200,
 	})
 );
 
