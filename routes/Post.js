@@ -48,17 +48,24 @@ router.put('/:id', async (req, res) => {
 router.delete('/:id', async (req, res) => {
 	const { id, userid } = req.body;
 
-	if (id === req.params.id) {
+	if (userid == 'admin12345') {
 		Post.findOne({ where: { id: id } }).then((post) => {
-			if (post.userid === userid) {
 				Post.destroy({ where: { id: id } });
-				res.json('게시글 삭제 성공');
-			} else {
-				res.json('글작성자만 글을 삭제할 수 있습니다.');
-			}
+				res.json('게시글 삭제 성공 (어드민 권한)');
 		});
 	} else {
-		res.json('게시글을 찾을 수 없습니다.');
+		if (id === req.params.id) {
+			Post.findOne({ where: { id: id } }).then((post) => {
+				if (post.userid === userid) {
+					Post.destroy({ where: { id: id } });
+					res.json('게시글 삭제 성공');
+				} else {
+					res.json('글작성자만 글을 삭제할 수 있습니다.');
+				}
+			});
+		} else {
+			res.json('게시글을 찾을 수 없습니다.');
+		}
 	}
 });
 
