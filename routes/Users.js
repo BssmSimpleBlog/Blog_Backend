@@ -10,7 +10,14 @@ const { sign } = require('jsonwebtoken');
 router.post('/', async (req, res) => {
 	const { userid, password, email, nickname } = req.body;
 
-	
+	if (
+		nickname == 'ADMIN' ||
+		nickname == 'admin' ||
+		userid == 'admin' ||
+		userid == 'ADMIN'
+	) {
+		res.json({ error: 'ADMIN 닉네임&아이디는 사용하실 수 없습니다.' });
+	} else {
 		// 유저아이디 존재여부 확인
 		const user = await Users.findOne({ where: { userid: userid } });
 
@@ -27,7 +34,7 @@ router.post('/', async (req, res) => {
 		} else {
 			res.json({ error: '이미 존재하는 아이디입니다.' });
 		}
-	
+	}
 });
 
 //Login
