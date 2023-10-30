@@ -9,9 +9,9 @@ router.get('/:postId', async (req, res) => {
 });
 
 router.post('/', async (req, res) => {
-	const { commentBody, nickname, postId } = req.body;
+	const { commentBody, userid, nickname, postId } = req.body;
 
-	if (!nickname || !commentBody || !postId) {
+	if (!nickname || !commentBody || !postId || !userid) {
 		res.json({ error: '로그인 후에 이용해주세요' });
 	} else {
 		Comments.create(req.body);
@@ -22,6 +22,7 @@ router.post('/', async (req, res) => {
 
 router.delete('/:commentId', async (req, res) => {
 	const commentId = req.params.commentId;
+  
 
 	await Comments.destroy({ where: { id: commentId } });
 
