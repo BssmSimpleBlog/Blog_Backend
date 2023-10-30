@@ -7,8 +7,8 @@ dotenv.config();
 app.use(express.json());
 app.use(
 	cors({
+		origin: 'http://localhost:3001',
 		credentials: true,
-		origin: 'https://simpleblog-ambition.netlify.app',
 		withCredentials: true,
 		optionsSuccessStatus: 200,
 	})
@@ -30,6 +30,8 @@ const usersRouter = require('./routes/Users');
 app.use('/auth', usersRouter);
 const postRouter = require('./routes/Post');
 app.use('/post', postRouter);
+const commentRouter = require('./routes/Comment');
+app.use('/comment', commentRouter);
 
 //Port
 db.sequelize.sync().then(() => {
