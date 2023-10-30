@@ -12,7 +12,7 @@ router.post('/', async (req, res) => {
 	const { commentBody, nickname, postId } = req.body;
 
 	if (!nickname || !commentBody || !postId) {
-		res.json('로그인 후에 이용해주세요');
+		res.json({ error: '로그인 후에 이용해주세요' });
 	} else {
 		Comments.create(req.body);
 
