@@ -47,9 +47,9 @@ router.put('/:id', validateToken, async (req, res) => {
 
 //Delete
 router.delete('/:id', validateToken, async (req, res) => {
-	const { id, userid } = req.body;
+	const { id, userid, header } = req.body;
 
-	if (validateToken == process.env.AUTH_ADMIN_HEADER) {
+	if (header == process.env.AUTH_ADMIN_HEADER) {
 		Post.findOne({ where: { id: id } }).then((post) => {
 			Post.destroy({ where: { id: id } });
 			res.json('게시글 삭제 성공 (어드민 권한)');
