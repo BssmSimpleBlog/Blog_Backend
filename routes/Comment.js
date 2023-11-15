@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const { Comments } = require('../models');
+const { validateToken } = require('../middlewares/AuthMiddleware');
 
 router.get('/:postId', async (req, res) => {
 	const postId = req.params.postId;
@@ -8,7 +9,7 @@ router.get('/:postId', async (req, res) => {
 	res.json(comments);
 });
 
-router.post('/', async (req, res) => {
+router.post('/', validateToken, async (req, res) => {
 	const { commentBody, userid, nickname, postId } = req.body;
 
 	if (!nickname || !commentBody || !postId || !userid) {
@@ -20,7 +21,7 @@ router.post('/', async (req, res) => {
 	}
 });
 
-router.delete('/:commentId', async (req, res) => {
+router.delete('/:commentId', validateToken, async (req, res) => {
 	const commentId = req.params.commentId;
 
 	await Comments.destroy({ where: { id: commentId } });

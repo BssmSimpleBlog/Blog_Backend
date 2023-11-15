@@ -2,9 +2,10 @@ const express = require('express');
 const router = express.Router();
 const { Post } = require('../models');
 const bcrypt = require('bcrypt');
+const { validateToken } = require('../middlewares/AuthMiddleware');
 
 //Write Post
-router.post('/', async (req, res) => {
+router.post('/', validateToken, async (req, res) => {
 	const { title, desc, nickname, userid } = req.body;
 
 	bcrypt.hash(title, 10).then((hash) => {
@@ -20,7 +21,7 @@ router.post('/', async (req, res) => {
 });
 
 //Update
-router.put('/:id', async (req, res) => {
+router.put('/:id', validateToken, async (req, res) => {
 	const { id, userid, title, desc } = req.body;
 
 	if (id === req.params.id) {
@@ -45,13 +46,13 @@ router.put('/:id', async (req, res) => {
 });
 
 //Delete
-router.delete('/:id', async (req, res) => {
+router.delete('/:id', validateToken, async (req, res) => {
 	const { id, userid } = req.body;
 
-	if (userid == 'admin12345') {
+	if (validateToken == process.env.AUTH_ADMIN_HEADER) {
 		Post.findOne({ where: { id: id } }).then((post) => {
-				Post.destroy({ where: { id: id } });
-				res.json('게시글 삭제 성공 (어드민 권한)');
+			Post.destroy({ where: { id: id } });
+			res.json('게시글 삭제 성공 (어드민 권한)');
 		});
 	} else {
 		if (id === req.params.id) {
