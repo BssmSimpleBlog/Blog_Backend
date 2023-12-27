@@ -5,14 +5,6 @@ const dotenv = require('dotenv');
 dotenv.config();
 
 app.use(express.json());
-app.use(
-	cors({
-		origin: 'https://simpleblog-ambition.netlify.app',
-		credentials: true,
-		withCredentials: true,
-		optionsSuccessStatus: 200,
-	})
-);
 
 //Port Setting
 const PORT = process.env.PORT;
