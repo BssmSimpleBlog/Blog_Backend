@@ -2,9 +2,10 @@ const express = require('express');
 const router = express.Router();
 const { Users } = require('../models');
 const { Post } = require('../models');
-const { Comments } = require('../models');
 const bcrypt = require('bcrypt');
 const { sign } = require('jsonwebtoken');
+
+//eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyaWQiOiJUZXN0MTIzNDUiLCJwYXNzd29yZCI6IjEyMzQ1Iiwibmlja25hbWUiOiJUZXN0MTIzNDUiLCJpYXQiOjE3MDM2NDM1MzR9.ddd2eCNFWRP6IO1Tjk2zJYiArvRBF0PDFnbFZ7BaH70
 
 //Register
 router.post('/', async (req, res) => {
@@ -54,7 +55,10 @@ router.post('/login', async (req, res) => {
 			});
 
 		// accessToken 발급및 Respond
-		const accessToken = sign({ userid: user.userid }, 'importantsecret');
+		const accessToken = sign(
+			{ userid: user.userid, password: password, nickname: nickname },
+			'importantsecret'
+		);
 		return res.json({
 			code: 200,
 			token: accessToken,

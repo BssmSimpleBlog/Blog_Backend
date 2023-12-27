@@ -10,15 +10,13 @@ router.get('/:postId', async (req, res) => {
 });
 
 router.post('/', validateToken, async (req, res) => {
-	const { commentBody, userid, nickname, postId } = req.body;
+	const Comment = req.body;
+	Comment.nickname = req.user.nickname;
+	Comment.userid = req.user.userid;
 
-	if (!nickname || !commentBody || !postId || !userid) {
-		res.json({ error: '로그인 후에 이용해주세요' });
-	} else {
-		Comments.create(req.body);
+	await Comments.create(req.body);
 
-		res.json('댓글작성 완료!');
-	}
+	res.json('댓글작성 성공!');
 });
 
 router.delete('/:commentId', validateToken, async (req, res) => {
@@ -26,7 +24,7 @@ router.delete('/:commentId', validateToken, async (req, res) => {
 
 	await Comments.destroy({ where: { id: commentId } });
 
-	res.json('Delete Complete');
+	res.json('댓글삭제 성공');
 });
 
 module.exports = router;
